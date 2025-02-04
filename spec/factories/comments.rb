@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
-    content { Faker::Lorem.paragraph }
+    sequence(:content) { |n| "Comment #{n} content" }
     association :user
     association :lesson
 
