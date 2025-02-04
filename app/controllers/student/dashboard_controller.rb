@@ -11,8 +11,8 @@ module Student
 
     def ensure_student
       unless current_user.student?
-        redirect_to root_path, alert: 'Access denied. Students only.'
+        redirect_to root_path, alert: "Access denied. Students only."
       end
     end
   end
-end 
+end

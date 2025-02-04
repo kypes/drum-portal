@@ -10,6 +10,6 @@ FactoryBot.define do
       association :assigned_to, factory: :student
     end
 
-    factory :assigned_lesson, traits: [:assigned]
+    factory :assigned_lesson, traits: [ :assigned ]
   end
-end 
+end

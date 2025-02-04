@@ -19,8 +19,8 @@ RSpec.describe Comment, type: :model do
         older_comment = create(:comment, created_at: 2.days.ago, user: student, lesson: lesson)
         newer_comment = create(:comment, created_at: 1.day.ago, user: student, lesson: lesson)
 
-        expect(described_class.recent_first).to eq([newer_comment, older_comment])
+        expect(described_class.recent_first).to eq([ newer_comment, older_comment ])
       end
     end
   end
-end 
+end

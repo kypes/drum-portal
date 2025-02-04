@@ -14,8 +14,8 @@ class User < ApplicationRecord
   scope :teacher, -> { where(role: :teacher) }
 
   # Associations
-  has_many :taught_lessons, class_name: 'Lesson', foreign_key: 'teacher_id', dependent: :destroy
-  has_many :assigned_lessons, class_name: 'Lesson', foreign_key: 'assigned_to_id'
+  has_many :taught_lessons, class_name: "Lesson", foreign_key: "teacher_id", dependent: :destroy
+  has_many :assigned_lessons, class_name: "Lesson", foreign_key: "assigned_to_id"
   has_many :comments, dependent: :destroy
 
   # Validations
@@ -47,4 +47,4 @@ class User < ApplicationRecord
   def set_default_points
     self.points ||= 0
   end
-end 
+end

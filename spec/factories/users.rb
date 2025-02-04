@@ -13,7 +13,7 @@ FactoryBot.define do
       role { :student }
     end
 
-    factory :teacher, traits: [:teacher]
-    factory :student, traits: [:student]
+    factory :teacher, traits: [ :teacher ]
+    factory :student, traits: [ :student ]
   end
-end 
+end

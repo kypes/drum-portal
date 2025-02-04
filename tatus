@@ -1,0 +1,5 @@
+[33mcommit 43f829d256989c433f9778cb89575e902b87dc5e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfix/ci-workflow[m[33m, [m[1;31morigin/fix/ci-workflow[m[33m, [m[1;32mmain[m[33m)[m
+Author: kypes <jay@kypers.ca>
+Date:   Tue Feb 4 15:29:59 2025 -0500
+
+    fix: Update CI workflow to fix permission issues

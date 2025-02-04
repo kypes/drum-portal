@@ -62,8 +62,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
   config.cache_store = :redis_cache_store, {
     url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1"),
-    error_handler: -> (method:, returning:, exception:) {
-      Raven.capture_exception(exception, level: 'warning',
+    error_handler: ->(method:, returning:, exception:) {
+      Raven.capture_exception(exception, level: "warning",
         tags: { method: method, returning: returning }
       )
     }
@@ -96,7 +96,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST") }
-  
+
   # SMTP settings
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

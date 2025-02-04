@@ -9,4 +9,4 @@ class LessonMailer < ApplicationMailer
       subject: "New Lesson: #{@lesson.title}"
     )
   end
-end 
+end

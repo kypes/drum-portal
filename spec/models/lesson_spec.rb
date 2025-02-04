@@ -20,8 +20,8 @@ RSpec.describe Lesson, type: :model do
         older_lesson = create(:lesson, created_at: 2.days.ago, teacher: teacher, assigned_to: student)
         newer_lesson = create(:lesson, created_at: 1.day.ago, teacher: teacher, assigned_to: student)
 
-        expect(described_class.recent_first).to eq([newer_lesson, older_lesson])
+        expect(described_class.recent_first).to eq([ newer_lesson, older_lesson ])
       end
     end
   end
-end 
+end

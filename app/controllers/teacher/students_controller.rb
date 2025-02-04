@@ -9,4 +9,4 @@ module Teacher
       @lessons = @student.assigned_lessons.includes(:teacher).recent_first
     end
   end
-end 
+end

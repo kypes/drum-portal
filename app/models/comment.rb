@@ -36,4 +36,4 @@ class Comment < ApplicationRecord
   def increment_student_points
     user.increment_points!(3) # 3 points for commenting on a lesson
   end
-end 
+end

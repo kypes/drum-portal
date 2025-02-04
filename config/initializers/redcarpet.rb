@@ -1,5 +1,5 @@
-require 'redcarpet'
-require 'redcarpet/render_strip'
+require "redcarpet"
+require "redcarpet/render_strip"
 
 module ActionView
   module Template::Handlers
@@ -12,7 +12,7 @@ module ActionView
           Redcarpet::Render::HTML.new(
             filter_html: true,
             hard_wrap: true,
-            link_attributes: { rel: 'nofollow', target: '_blank' }
+            link_attributes: { rel: "nofollow", target: "_blank" }
           ),
           autolink: true,
           no_intra_emphasis: true,
@@ -28,4 +28,4 @@ module ActionView
   end
 end
 
-ActionView::Template.register_template_handler :md, ActionView::Template::Handlers::Markdown.new 
+ActionView::Template.register_template_handler :md, ActionView::Template::Handlers::Markdown.new

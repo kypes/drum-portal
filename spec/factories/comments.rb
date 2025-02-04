@@ -12,7 +12,7 @@ FactoryBot.define do
       association :user, factory: :student
     end
 
-    factory :teacher_comment, traits: [:from_teacher]
-    factory :student_comment, traits: [:from_student]
+    factory :teacher_comment, traits: [ :from_teacher ]
+    factory :student_comment, traits: [ :from_student ]
   end
-end 
+end

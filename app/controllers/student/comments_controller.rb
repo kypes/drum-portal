@@ -8,11 +8,11 @@ module Student
 
       if @comment.save
         respond_to do |format|
-          format.html { redirect_to [:student, @lesson], notice: 'Comment was successfully added.' }
+          format.html { redirect_to [ :student, @lesson ], notice: "Comment was successfully added." }
           format.turbo_stream
         end
       else
-        redirect_to [:student, @lesson], alert: 'Error adding comment.'
+        redirect_to [ :student, @lesson ], alert: "Error adding comment."
       end
     end
 
@@ -26,4 +26,4 @@ module Student
       params.require(:comment).permit(:content)
     end
   end
-end 
+end
