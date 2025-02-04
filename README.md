@@ -53,7 +53,7 @@
 
 - Docker & Docker Compose
 - Git
-- Node.js 16.20.2 or higher
+- Node.js >=16.20.2
 - Ruby 3.2.2
 
 ### Development Setup
@@ -117,20 +117,36 @@ yarn watch:css
 
 ```
 app/
+├── assets/          # CSS and image assets
 ├── controllers/
-│   ├── api/           # API endpoints
-│   ├── teacher/       # Teacher-specific controllers
-│   └── student/       # Student-specific controllers
-├── models/           # ActiveRecord models
-├── policies/         # Pundit authorization policies
-├── views/
-│   ├── layouts/      # Application layouts
-│   ├── shared/       # Shared partials
-│   ├── teacher/      # Teacher views
-│   └── student/      # Student views
+│   ├── api/        # API endpoints
+│   ├── teacher/    # Teacher-specific controllers
+│   └── student/    # Student-specific controllers
 ├── javascript/
-│   └── controllers/  # Stimulus controllers
-└── helpers/         # View helpers
+│   └── controllers/ # Stimulus controllers
+├── jobs/           # Background jobs
+├── mailers/        # Email templates
+├── models/         # ActiveRecord models
+├── policies/       # Pundit authorization policies
+└── views/
+    ├── layouts/    # Application layouts
+    ├── shared/     # Shared partials
+    ├── teacher/    # Teacher views
+    └── student/    # Student views
+
+config/             # Application configuration
+├── environments/   # Environment-specific settings
+├── initializers/   # Rails initializers
+└── locales/       # I18n translations
+
+db/                 # Database configuration and migrations
+├── migrate/       # Database migrations
+└── seeds.rb       # Seed data
+
+spec/              # Test files
+├── factories/     # FactoryBot definitions
+├── models/        # Model specs
+└── system/        # System/integration tests
 ```
 
 ## 🧪 Testing
@@ -167,11 +183,17 @@ bundle exec rspec
 
 3. **Environment Variables**
    Required variables:
-   - `DATABASE_URL`
-   - `REDIS_URL`
-   - `RAILS_MASTER_KEY`
-   - `RAILS_ENV=production`
-   - `RAILS_SERVE_STATIC_FILES=true`
+   - `DATABASE_URL` - PostgreSQL connection URL
+   - `REDIS_URL` - Redis connection URL
+   - `RAILS_MASTER_KEY` - Rails master key for credentials
+   - `RAILS_ENV=production` - Set environment to production
+   - `RAILS_SERVE_STATIC_FILES=true` - Enable serving static files
+   - `APP_HOST` - Application host for mailer configuration
+   - `SMTP_ADDRESS` - SMTP server address
+   - `SMTP_PORT` - SMTP port (defaults to 587)
+   - `SMTP_DOMAIN` - SMTP domain
+   - `SMTP_USERNAME` - SMTP username
+   - `SMTP_PASSWORD` - SMTP password
 
 ## 🛠️ Technology Stack
 
