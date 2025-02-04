@@ -4,12 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  enum role: { student: 0, teacher: 1 }
+
   # Constants
   ROLES = %w[student teacher].freeze
 
   # Scopes
-  scope :student, -> { where(role: 'student') }
-  scope :teacher, -> { where(role: 'teacher') }
+  scope :student, -> { where(role: :student) }
+  scope :teacher, -> { where(role: :teacher) }
 
   # Associations
   has_many :taught_lessons, class_name: 'Lesson', foreign_key: 'teacher_id', dependent: :destroy
@@ -19,7 +21,7 @@ class User < ApplicationRecord
   # Validations
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :role, presence: true, inclusion: { in: ROLES }
+  validates :role, presence: true
   validates :points, numericality: { greater_than_or_equal_to: 0 }
 
   # Callbacks
@@ -27,11 +29,11 @@ class User < ApplicationRecord
 
   # Methods
   def teacher?
-    role == 'teacher'
+    role.to_sym == :teacher
   end
 
   def student?
-    role == 'student'
+    role.to_sym == :student
   end
 
   def increment_points!(amount = 1)

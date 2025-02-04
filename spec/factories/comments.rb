@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :comment do
     sequence(:content) { |n| "Comment #{n} content" }
-    association :user
-    association :lesson
+    association :user, factory: :user, role: :student
+    association :lesson, factory: :lesson
 
     trait :from_teacher do
-      association :user, factory: :teacher
+      association :user, factory: :user, role: :teacher
     end
 
     trait :from_student do
