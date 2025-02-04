@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Authentication', type: :system do
   before do
-    driven_by(:rack_test)
+    driven_by(:selenium_chrome_headless)
   end
 
   describe 'sign in' do
@@ -14,16 +14,16 @@ RSpec.describe 'Authentication', type: :system do
 
     it 'allows user to sign in with valid credentials' do
       visit new_user_session_path
-      fill_in 'Email', with: user.email
-      fill_in 'Password', with: 'password123'
+      fill_in 'Email', with: user.email, match: :prefer_exact
+      fill_in 'Password', with: 'password123', match: :prefer_exact
       click_button 'Sign in'
       expect(page).to have_content('Signed in successfully')
     end
 
     it 'shows error with invalid credentials' do
       visit new_user_session_path
-      fill_in 'Email', with: 'wrong@example.com'
-      fill_in 'Password', with: 'wrongpassword'
+      fill_in 'Email', with: 'wrong@example.com', match: :prefer_exact
+      fill_in 'Password', with: 'wrongpassword', match: :prefer_exact
       click_button 'Sign in'
       expect(page).to have_content('Invalid Email or password')
     end

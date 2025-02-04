@@ -59,7 +59,7 @@ Rails.application.configure do
   # Use test adapter for Active Job
   config.active_job.queue_adapter = :test
 
-  # Use credentials instead of secrets
+  # Use credentials for secret key base
   config.require_master_key = false
-  config.secret_key_base = "test" unless Rails.env.production?
+  config.secret_key_base = Rails.application.credentials.secret_key_base || "test"
 end

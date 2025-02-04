@@ -24,6 +24,8 @@ RUN apt-get update -qq && \
     node-gyp \
     pkg-config \
     python-is-python3 \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Install Node.js
