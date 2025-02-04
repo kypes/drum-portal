@@ -62,7 +62,7 @@ gem "reform", "~> 2.6"
 gem "reform-rails", "~> 0.2"
 
 # Pagination
-gem "pagy", "~> 6.2"
+gem "pagy", "~> 9.3"
 
 # Markdown and HTML processing
 gem 'rouge'               # Syntax highlighting
