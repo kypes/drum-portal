@@ -1,7 +1,7 @@
 module Teacher
   class CommentsController < BaseController
     before_action :set_lesson
-    before_action :set_comment, only: [:destroy]
+    before_action :set_comment, only: [ :destroy ]
 
     def create
       @comment = @lesson.comments.build(comment_params)
@@ -9,18 +9,18 @@ module Teacher
 
       if @comment.save
         respond_to do |format|
-          format.html { redirect_to [:teacher, @lesson], notice: 'Comment was successfully added.' }
+          format.html { redirect_to [ :teacher, @lesson ], notice: "Comment was successfully added." }
           format.turbo_stream
         end
       else
-        redirect_to [:teacher, @lesson], alert: 'Error adding comment.'
+        redirect_to [ :teacher, @lesson ], alert: "Error adding comment."
       end
     end
 
     def destroy
       @comment.destroy
       respond_to do |format|
-        format.html { redirect_to [:teacher, @lesson], notice: 'Comment was successfully deleted.' }
+        format.html { redirect_to [ :teacher, @lesson ], notice: "Comment was successfully deleted." }
         format.turbo_stream
       end
     end
@@ -39,4 +39,4 @@ module Teacher
       params.require(:comment).permit(:content)
     end
   end
-end 
+end

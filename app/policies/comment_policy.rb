@@ -12,4 +12,4 @@ class CommentPolicy < ApplicationPolicy
   def destroy?
     user.teacher? || record.user_id == user.id
   end
-end 
+end

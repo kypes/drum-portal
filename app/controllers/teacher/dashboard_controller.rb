@@ -5,4 +5,4 @@ module Teacher
       @students = User.where(role: :student)
     end
   end
-end 
+end

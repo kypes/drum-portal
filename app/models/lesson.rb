@@ -1,7 +1,7 @@
 class Lesson < ApplicationRecord
   # Associations
-  belongs_to :teacher, class_name: 'User'
-  belongs_to :assigned_to, class_name: 'User'
+  belongs_to :teacher, class_name: "User"
+  belongs_to :assigned_to, class_name: "User"
   has_many :comments, dependent: :destroy
 
   # Validations
@@ -29,12 +29,12 @@ class Lesson < ApplicationRecord
 
   def teacher_must_be_teacher
     return if teacher&.teacher?
-    errors.add(:teacher, 'must be a teacher')
+    errors.add(:teacher, "must be a teacher")
   end
 
   def assigned_to_must_be_student
     return if assigned_to&.student?
-    errors.add(:assigned_to, 'must be a student')
+    errors.add(:assigned_to, "must be a student")
   end
 
   def send_notification_email
@@ -44,4 +44,4 @@ class Lesson < ApplicationRecord
   def increment_student_points
     assigned_to.increment_points!(5) # 5 points for viewing a lesson
   end
-end 
+end

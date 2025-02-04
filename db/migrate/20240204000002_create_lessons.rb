@@ -9,7 +9,7 @@ class CreateLessons < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :lessons, [:teacher_id, :created_at]
-    add_index :lessons, [:assigned_to_id, :created_at]
+    add_index :lessons, [ :teacher_id, :created_at ]
+    add_index :lessons, [ :assigned_to_id, :created_at ]
   end
-end 
+end

@@ -1,14 +1,14 @@
-require 'rouge'
-require 'rouge/plugins/redcarpet'
+require "rouge"
+require "rouge/plugins/redcarpet"
 
 module MarkdownHelper
   def markdown(text)
-    return '' if text.blank?
+    return "" if text.blank?
 
     options = {
       filter_html: false,
       hard_wrap: true,
-      link_attributes: { rel: 'nofollow', target: '_blank' },
+      link_attributes: { rel: "nofollow", target: "_blank" },
       space_after_headers: true,
       fenced_code_blocks: true
     }
@@ -24,14 +24,14 @@ module MarkdownHelper
     markdown = Redcarpet::Markdown.new(renderer, extensions)
 
     sanitize(markdown.render(text), Sanitize::Config::RELAXED.merge(
-      elements: Sanitize::Config::RELAXED[:elements] + ['iframe'],
+      elements: Sanitize::Config::RELAXED[:elements] + [ "iframe" ],
       attributes: {
-        'iframe' => ['src', 'width', 'height', 'frameborder', 'allowfullscreen', 'allow'],
-        'div' => ['class']
+        "iframe" => [ "src", "width", "height", "frameborder", "allowfullscreen", "allow" ],
+        "div" => [ "class" ]
       }.merge(Sanitize::Config::RELAXED[:attributes]),
       css: Sanitize::Config::RELAXED[:css],
       protocols: {
-        'iframe' => { 'src' => ['http', 'https'] }
+        "iframe" => { "src" => [ "http", "https" ] }
       }.merge(Sanitize::Config::RELAXED[:protocols])
     ))
   end
@@ -40,9 +40,9 @@ module MarkdownHelper
     include Rouge::Plugins::Redcarpet
 
     def block_code(code, language)
-      language ||= 'text'
+      language ||= "text"
       formatter = Rouge::Formatters::HTMLLegacy.new(
-        inline_theme: 'github-dark'
+        inline_theme: "github-dark"
       )
       lexer = Rouge::Lexer.find_fancy(language, code) || Rouge::Lexers::PlainText.new
       formatter.format(lexer.lex(code))
@@ -64,11 +64,14 @@ module MarkdownHelper
     end
 
     def youtube_iframe(text)
-      video_id = if text.include?('youtube.com')
+      uri = URI.parse(text.strip)
+      video_id = if uri.host == "youtube.com"
                    text.match(/v=([a-zA-Z0-9_-]+)/)[1]
-                 else
+      elsif uri.host == "youtu.be"
                    text.match(/youtu\.be\/([a-zA-Z0-9_-]+)/)[1]
-                 end
+      else
+                   nil
+      end
 
       <<-HTML
         <div class="video-container my-4">
@@ -82,4 +85,4 @@ module MarkdownHelper
       HTML
     end
   end
-end 
+end

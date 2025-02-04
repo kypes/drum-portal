@@ -3,43 +3,43 @@ Rails.application.routes.draw do
 
   # Authentication routes
   devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions'
+    registrations: "users/registrations",
+    sessions: "users/sessions"
   }
 
   # API routes
   namespace :api do
-    post 'markdown/preview', to: 'markdown#preview'
+    post "markdown/preview", to: "markdown#preview"
   end
 
   # Root path based on user role
   authenticated :user, ->(user) { user.teacher? } do
-    root 'teacher/dashboard#index', as: :teacher_root
+    root "teacher/dashboard#index", as: :teacher_root
   end
 
   authenticated :user, ->(user) { user.student? } do
-    root 'student/dashboard#index', as: :student_root
+    root "student/dashboard#index", as: :student_root
   end
 
-  root 'home#index'
+  root "home#index"
 
   # Teacher namespace
   namespace :teacher do
-    get 'dashboard', to: 'dashboard#index'
+    get "dashboard", to: "dashboard#index"
     resources :lessons do
-      resources :comments, only: [:create, :destroy]
+      resources :comments, only: [ :create, :destroy ]
     end
-    resources :students, only: [:index, :show]
+    resources :students, only: [ :index, :show ]
   end
 
   # Student namespace
   namespace :student do
-    get 'dashboard', to: 'dashboard#index'
-    resources :lessons, only: [:index, :show] do
+    get "dashboard", to: "dashboard#index"
+    resources :lessons, only: [ :index, :show ] do
       member do
         post :mark_as_viewed
       end
-      resources :comments, only: [:create, :destroy]
+      resources :comments, only: [ :create, :destroy ]
     end
   end
 

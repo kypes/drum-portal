@@ -65,8 +65,8 @@ gem "reform-rails", "~> 0.2"
 gem "pagy", "~> 6.2"
 
 # Markdown and HTML processing
-gem 'rouge'               # Syntax highlighting
-gem 'sanitize'            # HTML sanitization
+gem "rouge"               # Syntax highlighting
+gem "sanitize"            # HTML sanitization
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -80,17 +80,17 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  
+
   # Security scanning
   gem "brakeman"
-  
+
   # Performance profiling
   gem "rack-mini-profiler"
-  
+
   # N+1 query detection
   gem "bullet"
 
-  gem "error_highlight", "~> 0.5.1", platforms: [:ruby]
+  gem "error_highlight", "~> 0.5.1", platforms: [ :ruby ]
 end
 
 group :test do
@@ -99,4 +99,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-

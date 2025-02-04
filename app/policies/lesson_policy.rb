@@ -32,4 +32,4 @@ class LessonPolicy < ApplicationPolicy
   def assign?
     user.teacher? && record.teacher_id == user.id
   end
-end 
+end
