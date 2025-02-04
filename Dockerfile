@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1
 
-FROM registry.docker.com/library/ruby:3.2.2-slim as base
+FROM registry.docker.com/library/ruby:3.4.1-slim as base
 
 WORKDIR /rails
 
