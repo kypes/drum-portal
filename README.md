@@ -1,132 +1,216 @@
 # 🥁 Drum Teacher Student Portal
 
-[![Rails](https://img.shields.io/badge/Rails-7.1.5-red.svg)](https://rubyonrails.org/)
+[![Rails](https://img.shields.io/badge/Rails-7.1.2-red.svg)](https://rubyonrails.org/)
 [![Ruby](https://img.shields.io/badge/Ruby-3.2.2-red.svg)](https://www.ruby-lang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://www.postgresql.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-blue.svg)](https://tailwindcss.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-blue.svg)](https://tailwindcss.com/)
+[![Hotwire](https://img.shields.io/badge/Hotwire-Turbo%20%2B%20Stimulus-purple.svg)](https://hotwired.dev/)
 [![Docker](https://img.shields.io/badge/Docker-🐳-blue.svg)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> A modern web application for managing drum lessons between teachers and students, built with Ruby on Rails 7, Hotwire, and Tailwind CSS.
-
-![Drum Portal Screenshot](docs/screenshot.png)
+> A modern web application for managing drum lessons between teachers and students, built with Ruby on Rails 7, Hotwire (Turbo + Stimulus), and Tailwind CSS.
 
 ## ✨ Features
 
-- 👥 **User Roles**
-  - Teachers can create and manage lessons
-  - Students can view assigned lessons and track progress
-- 📚 **Lesson Management**
-  - Rich Markdown content support
-  - YouTube video integration
-  - Real-time comments and discussions
-- 🏆 **Gamification**
-  - Points system for lesson completion
-  - Progress tracking and achievements
-- ⚡ **Modern Tech Stack**
-  - Real-time updates with Hotwire (Turbo + Stimulus)
-  - Responsive design with Tailwind CSS
-  - Background jobs with Sidekiq
-  - Real-time notifications with Action Cable
+### 👥 User Management
 
-## 🚀 Quick Start
+- **Role-based Access Control**
+  - Teacher role for creating and managing lessons
+  - Student role for accessing assigned lessons
+- **Authentication** via Devise
+- **Authorization** using Pundit policies
+
+### 📚 Lesson System
+
+- **Rich Content Support**
+  - Markdown formatting with Redcarpet
+  - Syntax highlighting with Rouge
+  - HTML sanitization for security
+- **YouTube Integration**
+  - Embed video content in lessons
+- **Real-time Interactions**
+  - Live comments and discussions
+  - Instant updates via Hotwire
+
+### 🎨 Modern UI/UX
+
+- **Responsive Design** with Tailwind CSS
+- **Real-time Updates** using Turbo Streams
+- **Interactive Elements** with Stimulus controllers
+- **Accessible Components** following best practices
+
+### ⚡ Technical Features
+
+- **Background Processing** with Sidekiq
+- **Real-time Communication** via Action Cable
+- **Caching** strategies for performance
+- **API Endpoints** for markdown preview
+- **Security** features and best practices
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Docker & Docker Compose
 - Git
+- Node.js 16.20.2 or higher
+- Ruby 3.2.2
 
-### Installation
+### Development Setup
 
-1. Clone the repository:
+1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/drum-portal.git
-   cd drum-portal
+   git clone <repository-url>
+   cd rubyPortal
    ```
 
-2. Set up environment variables:
+2. **Environment Configuration**
 
    ```bash
    cp .env.example .env
+   # Edit .env with your configuration
    ```
 
-3. Build and start the containers:
+3. **Build and Start Services**
 
    ```bash
+   # For Windows PowerShell
+   ./docker-compose.ps1 up
+
+   # For other systems
    docker-compose up --build
    ```
 
-4. Setup the database:
+4. **Database Setup**
+
    ```bash
    docker-compose exec web rails db:setup
    ```
 
-Visit http://localhost:3000 and log in with:
+5. **Access the Application**
+   - Visit: http://localhost:3000
+   - Default Accounts:
+     - Teacher: teacher@example.com (password: password123)
+     - Student: student@example.com (password: password123)
 
-- 👨‍🏫 Teacher: teacher@example.com (password: password123)
-- 👨‍🎓 Student: student@example.com (password: password123)
-
-## 🛠️ Development
-
-### Useful Commands
+### Development Tools
 
 ```bash
-# Access Rails console
-docker-compose exec web rails c
+# Start the development server
+./bin/dev
 
 # Run tests
-docker-compose exec web rspec
+bundle exec rspec
 
-# Run linter
-docker-compose exec web rubocop
+# Run security checks
+bundle exec brakeman
 
-# View logs
-docker-compose logs -f web
+# Check code style
+bundle exec rubocop
+
+# Watch CSS changes
+yarn watch:css
 ```
 
-### Architecture
+## 🏗️ Project Structure
 
 ```
 app/
-├── controllers/    # Request handling
-├── models/        # Business logic & data relations
-├── views/         # UI templates
-├── javascript/    # Stimulus controllers
-├── components/    # View components
-└── services/      # Complex business operations
+├── controllers/
+│   ├── api/           # API endpoints
+│   ├── teacher/       # Teacher-specific controllers
+│   └── student/       # Student-specific controllers
+├── models/           # ActiveRecord models
+├── policies/         # Pundit authorization policies
+├── views/
+│   ├── layouts/      # Application layouts
+│   ├── shared/       # Shared partials
+│   ├── teacher/      # Teacher views
+│   └── student/      # Student views
+├── javascript/
+│   └── controllers/  # Stimulus controllers
+└── helpers/         # View helpers
 ```
 
 ## 🧪 Testing
 
-We use RSpec for testing. Run the full suite:
+We use RSpec for testing, along with:
+
+- FactoryBot for test data
+- Capybara for system tests
+- SimpleCov for test coverage
+- Shoulda Matchers for common Rails patterns
+
+Run the test suite:
 
 ```bash
-docker-compose exec web rspec
+bundle exec rspec
 ```
 
 ## 📦 Deployment
 
-1. Build production image:
+### Docker Production Build
+
+1. **Build the Production Image**
 
    ```bash
-   docker build -t drum-portal:prod -f Dockerfile.prod .
+   docker build -t drum-portal:prod .
    ```
 
-2. Set production environment variables:
+2. **Configure Production Environment**
 
-   ```bash
-   cp .env.production.example .env.production
-   ```
+   - Set up production database
+   - Configure Redis for Action Cable
+   - Set up email delivery
+   - Configure asset storage
 
-3. Deploy using your preferred platform (Heroku, AWS, etc.)
+3. **Environment Variables**
+   Required variables:
+   - `DATABASE_URL`
+   - `REDIS_URL`
+   - `RAILS_MASTER_KEY`
+   - `RAILS_ENV=production`
+   - `RAILS_SERVE_STATIC_FILES=true`
+
+## 🛠️ Technology Stack
+
+- **Backend**
+
+  - Ruby 3.2.2
+  - Rails 7.1.2
+  - PostgreSQL 15
+  - Redis 7
+  - Sidekiq 7.0
+
+- **Frontend**
+
+  - Hotwire (Turbo 8.0 + Stimulus 3.2)
+  - Tailwind CSS 3.4.1
+  - Import Maps for JavaScript
+  - Yarn for package management
+
+- **Testing & Quality**
+  - RSpec
+  - Brakeman
+  - RuboCop
+  - SimpleCov
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing`)
-3. Commit changes (`git commit -am 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing`)
+2. Create your feature branch
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. Commit your changes
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+4. Push to the branch
+   ```bash
+   git push origin feature/amazing-feature
+   ```
 5. Open a Pull Request
 
 ## 📝 License
@@ -138,5 +222,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Ruby on Rails](https://rubyonrails.org/)
 - [Hotwire](https://hotwired.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Redis](https://redis.io/)
+- [Devise](https://github.com/heartcombo/devise)
+- [Pundit](https://github.com/varvet/pundit)
+- [Redcarpet](https://github.com/vmg/redcarpet)
