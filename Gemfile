@@ -90,7 +90,7 @@ group :development do
   # N+1 query detection
   gem "bullet"
 
-  gem "error_highlight", "~> 0.5.1", platforms: [:ruby]
+  gem "error_highlight", "~> 0.7.0", platforms: [:ruby]
 end
 
 group :test do
