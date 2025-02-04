@@ -61,6 +61,14 @@ jobs:
           bundle exec rails db:create
           bundle exec rails db:schema:load
 
+      - name: Build assets
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:password@localhost:5432/drum_portal_test
+        run: |
+          yarn build:css
+          bundle exec rails assets:precompile
+
       - name: Run tests
         env:
           RAILS_ENV: test
