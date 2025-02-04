@@ -1,0 +1,106 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: drum_portal_development
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    command: ./bin/docker-entrypoint.sh bundle exec rails server -b 0.0.0.0
+    volumes:
+      - .:/rails:cached
+      - bundle:/usr/local/bundle
+      - node_modules:/rails/node_modules
+      - tmp-data:/rails/tmp
+      - assets:/rails/public/assets
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-development}
+      TAILWIND_MODE: ${TAILWIND_MODE:-build}
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@postgres:5432/drum_portal_development
+      REDIS_URL: redis://redis:6379/1
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      RAILS_LOG_TO_STDOUT: "true"
+      RAILS_SERVE_STATIC_FILES: "true"
+      MALLOC_ARENA_MAX: 2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  css:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./bin/docker-entrypoint.sh yarn watch:css
+    volumes:
+      - .:/rails:cached
+      - bundle:/usr/local/bundle
+      - node_modules:/rails/node_modules
+      - tmp-data:/rails/tmp
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-development}
+      TAILWIND_MODE: watch
+    depends_on:
+      - web
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./bin/docker-entrypoint.sh bundle exec sidekiq
+    volumes:
+      - .:/rails:cached
+      - bundle:/usr/local/bundle
+      - node_modules:/rails/node_modules
+      - tmp-data:/rails/tmp
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@postgres:5432/drum_portal_development
+      REDIS_URL: redis://redis:6379/1
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres:
+  redis:
+  bundle:
+  node_modules:
+  tmp-data:
+  assets:

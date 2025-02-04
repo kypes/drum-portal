@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 59 130 246; /* blue-500 */
+    --accent: 99 102 241; /* indigo-500 */
+    --background: 255 255 255; /* white */
+    --card: 249 250 251; /* gray-50 */
+  }
+
+  .dark {
+    --primary: 96 165 250; /* blue-400 */
+    --accent: 129 140 248; /* indigo-400 */
+    --background: 17 24 39; /* gray-900 */
+    --card: 31 41 55; /* gray-800 */
+  }
+}
+
+@layer components {
+  .video-container {
+    @apply relative w-full overflow-hidden;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+
+  .video-container iframe {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium text-white 
+           bg-gradient-to-r from-blue-500 to-blue-600 
+           transition-all duration-200 
+           hover:from-blue-600 hover:to-blue-700 hover:scale-105 hover:shadow-lg
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900;
+  }
+
+  .card {
+    @apply relative overflow-hidden
+           bg-gray-800/50 backdrop-blur-lg 
+           border border-gray-700/50 
+           rounded-xl shadow-xl
+           transition-all duration-300
+           hover:shadow-blue-500/10;
+  }
+
+  .input-field {
+    @apply block w-full px-4 py-3 
+           bg-gray-900/50 border border-gray-700 rounded-lg
+           text-gray-100 placeholder-gray-500
+           transition-all duration-200
+           focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .nav-link {
+    @apply text-gray-300 px-3 py-2 rounded-lg
+           transition-all duration-200
+           hover:text-white hover:bg-gray-800/50;
+  }
+
+  .glass-panel {
+    @apply bg-gray-900/40 backdrop-blur-xl 
+           border border-gray-700/50 
+           rounded-xl shadow-lg shadow-black/5
+           transition-all duration-300
+           hover:shadow-black/10;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium
+           bg-gradient-to-r from-blue-500/10 to-blue-600/10 
+           text-blue-400 border border-blue-500/20;
+  }
+}
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 15px rgb(var(--accent) / 0.5);
+  }
+
+  .hover-trigger .hover-target {
+    @apply opacity-0 transition-opacity duration-200;
+  }
+
+  .hover-trigger:hover .hover-target {
+    @apply opacity-100;
+  }
+
+  .border-gradient {
+    border-image: linear-gradient(
+        to right,
+        rgb(var(--accent)),
+        rgb(var(--primary))
+      )
+      1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--accent) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 0 rgb(var(--accent) / 0.2);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+.animate-fade-in-up {
+  animation: fade-in 0.5s ease-out forwards;
+}
+.animate-gradient {
+  animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
+}
+.animate-blob {
+  animation: blob 7s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}

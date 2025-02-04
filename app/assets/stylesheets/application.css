@@ -1,0 +1,62 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+/* Custom styles can be added here */
+
+/* Form accessibility improvements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  color: #1a1a1a !important; /* Dark text for light backgrounds */
+  background-color: #ffffff !important; /* Light background */
+  border: 1px solid #4b5563 !important; /* Gray border */
+  border-radius: 0.375rem !important;
+  padding: 0.5rem 1rem !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    color: #e5e7eb !important; /* Light text */
+    background-color: #1f2937 !important; /* Dark background */
+    border-color: #374151 !important; /* Darker border */
+  }
+}
+
+/* Focus states for better accessibility */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  ring: 2px !important;
+  ring-offset: 2px !important;
+  ring-blue-500: !important;
+  border-color: #3b82f6 !important;
+}

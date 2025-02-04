@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Lesson: <%= @lesson.title %></h1>
+    
+    <p>Hello <%= @student.name %>,</p>
+    
+    <p>Your teacher, <%= @teacher.name %>, has assigned you a new lesson.</p>
+    
+    <h2>Lesson Details:</h2>
+    <ul>
+      <li><strong>Title:</strong> <%= @lesson.title %></li>
+      <li><strong>Posted:</strong> <%= @lesson.created_at.strftime("%B %d, %Y") %></li>
+    </ul>
+    
+    <p>
+      <%= link_to "View Lesson", student_lesson_url(@lesson) %>
+    </p>
+    
+    <p>Remember: You'll earn points for viewing and engaging with the lesson!</p>
+    
+    <p>Happy practicing!</p>
+    
+    <hr>
+    <p><small>This email was sent from your Drum Teacher Portal.</small></p>
+  </body>
+</html> 

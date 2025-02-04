@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-900">
+  <head>
+    <title>Drum Teacher Portal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <%= favicon_link_tag 'icon.png', type: 'image/png' %>
+    <%= favicon_link_tag 'icon.svg', type: 'image/svg+xml' %>
+    <%= favicon_link_tag 'icon.png', rel: 'apple-touch-icon' %>
+
+    <%# Load Tailwind CSS first %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    
+    <%# Then load application.css for any custom styles %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
+    <%# Finally load JavaScript %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full font-sans antialiased bg-gray-900 text-gray-100">
+    <!-- Animated gradient background -->
+    <div class="fixed inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 animate-gradient"></div>
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-50 mix-blend-soft-light"></div>
+    </div>
+
+    <!-- Navbar with blur effect -->
+    <div class="sticky top-0 z-40 backdrop-blur-lg bg-gray-900/70 border-b border-gray-800/50">
+      <%= render 'shared/navbar' %>
+    </div>
+
+    <!-- Main content -->
+    <main class="container mx-auto px-4 py-8 relative">
+      <%= render 'shared/flash' %>
+      <div class="animate-fade-in">
+        <%= yield %>
+      </div>
+    </main>
+
+    <!-- Footer with gradient border -->
+    <footer class="mt-auto border-t border-gradient-to-r from-blue-500/20 to-purple-500/20">
+      <%= render 'shared/footer' %>
+    </footer>
+  </body>
+</html>

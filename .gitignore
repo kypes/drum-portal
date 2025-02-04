@@ -1,0 +1,84 @@
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles and tempfiles
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials
+/config/master.key
+/config/credentials/*.key
+
+# Ignore environment variables
+.env
+.env.*
+!.env.example
+
+# Ignore node modules
+/node_modules
+/.yarn-cache
+
+# Ignore precompiled assets
+/public/assets
+/public/packs
+/public/packs-test
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+# Ignore yarn files
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore coverage reports
+/coverage/
+.simplecov
+
+# Ignore Mac and Linux file system files
+*.swp
+.DS_Store
+*~
+
+# Ignore database config for development
+config/database.yml
+config/database.yml.*
+!config/database.yml.example
+
+# Ignore Redis dump file
+dump.rdb
+
+# Ignore docker volumes
+docker-volumes/
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore test files
+/test/tmp/
+/test/version_tmp/
+/test/reports/
+
+# Ignore production files
+/public/system/
+/public/uploads/
+
+# Ignore master key and credentials
+config/master.key
+config/credentials.yml.enc

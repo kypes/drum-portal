@@ -1,0 +1,7 @@
+<%= turbo_stream.append "comments" do %>
+  <%= render partial: "shared/comment", locals: { comment: @comment } %>
+<% end %>
+
+<%= turbo_stream.replace "points" do %>
+  <%= render partial: "shared/points", locals: { points: current_user.points } %>
+<% end %> 

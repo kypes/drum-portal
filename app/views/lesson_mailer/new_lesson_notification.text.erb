@@ -1,0 +1,18 @@
+New Lesson: <%= @lesson.title %>
+
+Hello <%= @student.name %>,
+
+Your teacher, <%= @teacher.name %>, has assigned you a new lesson.
+
+Lesson Details:
+* Title: <%= @lesson.title %>
+* Posted: <%= @lesson.created_at.strftime("%B %d, %Y") %>
+
+View the lesson here: <%= student_lesson_url(@lesson) %>
+
+Remember: You'll earn points for viewing and engaging with the lesson!
+
+Happy practicing!
+
+---
+This email was sent from your Drum Teacher Portal. 
