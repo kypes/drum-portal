@@ -1,7 +1,7 @@
 module Api
   class MarkdownController < ApplicationController
     include MarkdownHelper
-    skip_before_action :verify_authenticity_token, only: [ :preview ]
+
 
     def preview
       content = params[:content]
