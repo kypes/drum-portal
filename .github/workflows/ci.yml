@@ -65,11 +65,14 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:password@localhost:5432/drum_portal_test
-        run: bundle exec rspec
+        run: |
+          bundle exec rspec
+          bundle exec rails test:system
 
       - name: Run security checks
         run: |
-          bundle exec brakeman -q -w2
+          gem install brakeman
+          brakeman -q -w2
 
       - name: Run linter
         run: |
