@@ -1,32 +1,12 @@
 version: 2
 updates:
-  # Ruby dependencies
-  - package-ecosystem: "bundler"
+  - package-ecosystem: bundler
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: daily
     open-pull-requests-limit: 10
-    groups:
-      development-dependencies:
-        dependency-type: "development"
-      production-dependencies:
-        dependency-type: "production"
-
-  # Node.js dependencies
-  - package-ecosystem: "npm"
+  - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
-    groups:
-      development-dependencies:
-        dependency-type: "development"
-      production-dependencies:
-        dependency-type: "production"
-
-  # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
+      interval: daily
     open-pull-requests-limit: 10
