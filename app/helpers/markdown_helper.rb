@@ -64,10 +64,13 @@ module MarkdownHelper
     end
 
     def youtube_iframe(text)
-      video_id = if text.include?("youtube.com")
+      uri = URI.parse(text.strip)
+      video_id = if uri.host == "youtube.com"
                    text.match(/v=([a-zA-Z0-9_-]+)/)[1]
-      else
+      elsif uri.host == "youtu.be"
                    text.match(/youtu\.be\/([a-zA-Z0-9_-]+)/)[1]
+      else
+                   nil
       end
 
       <<-HTML
