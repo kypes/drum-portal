@@ -1,9 +1,14 @@
 # syntax = docker/dockerfile:1
 
-FROM registry.docker.com/library/ruby:3.2.2-slim as base
+ARG RUBY_VERSION=3.2.2
+ARG NODE_VERSION=20
+ARG BUNDLER_VERSION=2.6.3
+
+FROM registry.docker.com/library/ruby:${RUBY_VERSION}-slim as base
 
 WORKDIR /rails
 
+# Set environment variables
 ENV BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_BIN=/usr/local/bundle/bin \
     PATH=/usr/local/bundle/bin:$PATH \
@@ -24,37 +29,43 @@ RUN apt-get update -qq && \
     node-gyp \
     pkg-config \
     python-is-python3 \
+    ca-certificates \
+    gnupg \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update -qq \
+    && apt-get install -y nodejs \
+    && npm install -g yarn@$YARN_VERSION \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# Install Node.js and Yarn
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get update -qq && apt-get install -y nodejs && \
-    npm install -g yarn@$YARN_VERSION && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
-
 # Create directories and set permissions
-RUN mkdir -p tmp/pids storage/tmp app/assets/builds node_modules && \
-    chmod -R 777 tmp storage node_modules
+RUN mkdir -p tmp/pids storage/tmp app/assets/builds node_modules public/assets && \
+    chmod -R 777 tmp storage node_modules public/assets
 
-# Copy dependency files
+# Install Ruby dependencies
+COPY Gemfile Gemfile.lock ./
+RUN gem update --system && \
+    gem uninstall bundler --all && \
+    gem install bundler -v "${BUNDLER_VERSION}" && \
+    bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development test' && \
+    bundle install --jobs 4 --retry 3
+
+# Install Node dependencies
 COPY package.json yarn.lock ./
 RUN yarn install
-
-COPY Gemfile Gemfile.lock ./
-RUN bundle config set --local without 'development test' && \
-    bundle install --jobs 4 --retry 3
 
 # Copy application code
 COPY . .
 
-# Build Tailwind CSS
-RUN yarn build:css
-
-# Precompile assets
-RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
+# Build assets
+RUN SECRET_KEY_BASE=dummy \
+    bundle exec rails assets:precompile && \
+    yarn build:css
 
 # Add entrypoint script
-COPY bin/docker-entrypoint.sh /usr/local/bin/
+COPY bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

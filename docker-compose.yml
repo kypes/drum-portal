@@ -5,7 +5,6 @@ services:
       - postgres:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_DB: drum_portal_development
       POSTGRES_USER: drum_portal
       POSTGRES_PASSWORD: password
     ports:
@@ -32,7 +31,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ./bin/docker-entrypoint.sh bundle exec rails server -b 0.0.0.0
+      args:
+        RUBY_VERSION: 3.2.2
+        NODE_VERSION: 20
+        BUNDLER_VERSION: 2.6.3
+    command: bundle exec rails server -b 0.0.0.0
+    entrypoint: /usr/local/bin/docker-entrypoint.sh
     volumes:
       - .:/rails:cached
       - bundle:/usr/local/bundle
@@ -53,6 +57,11 @@ services:
       MALLOC_ARENA_MAX: 2
       BUNDLE_PATH: /usr/local/bundle
       GEM_HOME: /usr/local/bundle
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      BUNDLER_VERSION: 2.6.3
     depends_on:
       postgres:
         condition: service_healthy
@@ -63,7 +72,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ./bin/docker-entrypoint.sh yarn watch:css
+      args:
+        RUBY_VERSION: 3.2.2
+        NODE_VERSION: 20
+        BUNDLER_VERSION: 2.6.3
+    command: yarn watch:css
+    entrypoint: /usr/local/bin/docker-entrypoint.sh
     volumes:
       - .:/rails:cached
       - bundle:/usr/local/bundle
@@ -73,6 +87,7 @@ services:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
       TAILWIND_MODE: watch
+      BUNDLER_VERSION: 2.6.3
     depends_on:
       - web
 
@@ -80,7 +95,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ./bin/docker-entrypoint.sh bundle exec sidekiq
+      args:
+        RUBY_VERSION: 3.2.2
+        NODE_VERSION: 20
+        BUNDLER_VERSION: 2.6.3
+    command: bundle exec sidekiq
+    entrypoint: /usr/local/bin/docker-entrypoint.sh
     volumes:
       - .:/rails:cached
       - bundle:/usr/local/bundle
@@ -88,11 +108,17 @@ services:
       - tmp-data:/rails/tmp
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-development}
       DATABASE_URL: postgres://drum_portal:password@postgres:5432/drum_portal_development
       REDIS_URL: redis://redis:6379/1
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       BUNDLE_PATH: /usr/local/bundle
       GEM_HOME: /usr/local/bundle
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      BUNDLER_VERSION: 2.6.3
     depends_on:
       postgres:
         condition: service_healthy
