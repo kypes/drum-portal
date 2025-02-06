@@ -6,7 +6,7 @@ set -e
 rm -f /rails/tmp/pids/server.pid
 
 # Wait for PostgreSQL
-until pg_isready -h postgres -p 5432 -U postgres
+until pg_isready -h postgres -p 5432 -U drum_portal
 do
   echo "Waiting for PostgreSQL..."
   sleep 2
@@ -26,12 +26,15 @@ if [ "${RAILS_ENV}" = "development" ]; then
   # Check if this is the web container (the one running the Rails server)
   if [[ "$*" == *"rails server"* ]]; then
     echo "Running database setup..."
-    bundle exec rails db:prepare
+    bundle exec rails db:prepare db:seed
 
     echo "Building Tailwind CSS..."
     yarn build:css
   fi
 fi
+
+# Ensure correct permissions
+chown -R 1000:1000 /rails/tmp /rails/log
 
 # Then exec the container's main process
 exec "$@" 

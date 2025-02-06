@@ -25,7 +25,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails", "~> 4.0"
+gem "tailwindcss-rails", "~> 2.3"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
@@ -89,8 +89,6 @@ group :development do
 
   # N+1 query detection
   gem "bullet"
-
-  gem "error_highlight", "~> 0.7.0", platforms: [:ruby]
 end
 
 group :test do

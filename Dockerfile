@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1
 
-FROM registry.docker.com/library/ruby:3.4.1-slim as base
+FROM registry.docker.com/library/ruby:3.2.2-slim as base
 
 WORKDIR /rails
 
@@ -24,31 +24,28 @@ RUN apt-get update -qq && \
     node-gyp \
     pkg-config \
     python-is-python3 \
-    chromium \
-    chromium-driver \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# Install Node.js
+# Install Node.js and Yarn
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get update -qq && apt-get install -y nodejs && \
     npm install -g yarn@$YARN_VERSION && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# Create directories for app
-RUN mkdir -p tmp/pids tmp/storage app/assets/builds
+# Create directories and set permissions
+RUN mkdir -p tmp/pids storage/tmp app/assets/builds node_modules && \
+    chmod -R 777 tmp storage node_modules
 
 # Copy dependency files
 COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY Gemfile Gemfile.lock ./
-RUN bundle install --jobs 4 --retry 3
+RUN bundle config set --local without 'development test' && \
+    bundle install --jobs 4 --retry 3
 
 # Copy application code
 COPY . .
-
-# Create storage directory and set permissions
-RUN chmod -R 777 tmp/storage
 
 # Build Tailwind CSS
 RUN yarn build:css

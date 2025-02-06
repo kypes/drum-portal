@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum role: { student: 0, teacher: 1 }
+  enum :role, { student: 0, teacher: 1 }, default: :student
 
   # Constants
   ROLES = %w[student teacher].freeze
