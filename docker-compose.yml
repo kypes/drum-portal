@@ -35,8 +35,6 @@ services:
         RUBY_VERSION: 3.2.2
         NODE_VERSION: 20
         BUNDLER_VERSION: 2.6.3
-    command: bundle exec rails server -b 0.0.0.0
-    entrypoint: /usr/local/bin/docker-entrypoint.sh
     volumes:
       - .:/rails:cached
       - bundle:/usr/local/bundle
@@ -44,7 +42,7 @@ services:
       - tmp-data:/rails/tmp
       - assets:/rails/public/assets
     ports:
-      - "3000:3000"
+      - "8080:3000"
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
@@ -57,39 +55,12 @@ services:
       MALLOC_ARENA_MAX: 2
       BUNDLE_PATH: /usr/local/bundle
       GEM_HOME: /usr/local/bundle
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      BUNDLER_VERSION: 2.6.3
+      POSTGRES_PASSWORD: password
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
-
-  css:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        RUBY_VERSION: 3.2.2
-        NODE_VERSION: 20
-        BUNDLER_VERSION: 2.6.3
-    command: yarn watch:css
-    entrypoint: /usr/local/bin/docker-entrypoint.sh
-    volumes:
-      - .:/rails:cached
-      - bundle:/usr/local/bundle
-      - node_modules:/rails/node_modules
-      - tmp-data:/rails/tmp
-    environment:
-      RAILS_ENV: ${RAILS_ENV:-development}
-      NODE_ENV: ${NODE_ENV:-development}
-      TAILWIND_MODE: watch
-      BUNDLER_VERSION: 2.6.3
-    depends_on:
-      - web
 
   sidekiq:
     build:
@@ -100,7 +71,6 @@ services:
         NODE_VERSION: 20
         BUNDLER_VERSION: 2.6.3
     command: bundle exec sidekiq
-    entrypoint: /usr/local/bin/docker-entrypoint.sh
     volumes:
       - .:/rails:cached
       - bundle:/usr/local/bundle
@@ -112,13 +82,7 @@ services:
       DATABASE_URL: postgres://drum_portal:password@postgres:5432/drum_portal_development
       REDIS_URL: redis://redis:6379/1
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
-      BUNDLE_PATH: /usr/local/bundle
-      GEM_HOME: /usr/local/bundle
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      BUNDLER_VERSION: 2.6.3
+      POSTGRES_PASSWORD: password
     depends_on:
       postgres:
         condition: service_healthy
