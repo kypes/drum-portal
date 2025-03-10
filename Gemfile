@@ -52,7 +52,7 @@ gem "sidekiq", "~> 7.0"
 gem "devise", "~> 4.9"
 
 # Authorization
-gem "pundit", "~> 2.3"
+gem "pundit", "~> 2.5"
 
 # Markdown processing
 gem "redcarpet", "~> 3.6"
