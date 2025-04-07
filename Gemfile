@@ -46,7 +46,7 @@ gem "bootsnap", require: false
 gem "image_processing", "~> 1.2"
 
 # Background job processing
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 8.0"
 
 # Authentication
 gem "devise", "~> 4.9"
